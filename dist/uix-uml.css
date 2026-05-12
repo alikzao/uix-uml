@@ -2235,6 +2235,11 @@ url(fonts/bootstrap-icons.woff) format("woff");
     overflow-x: auto !important;   /* горизонталь работает у контейнера */
     overflow-y: auto;
     scrollbar-width: none !important;
+    background-color: #202020;
+    background-image:
+            linear-gradient(90deg, rgba(152, 151, 151, 0.1) 1px, transparent 1px),
+            linear-gradient(rgba(156, 156, 156, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
 .uml-diagram-inner {
@@ -2270,7 +2275,7 @@ url(fonts/bootstrap-icons.woff) format("woff");
 #content-constructor, #content-workflow {
     width: 100%;
     /*height: 500px;*/
-    background: #202020;
+    background-color: #202020;
     border: 1px solid #ddd;
 }
 
