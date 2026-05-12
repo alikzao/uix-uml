@@ -1,0 +1,32 @@
+.uml-diagram-container .controls-wrap{
+    position: sticky;
+    top: 0;                /* липнет к верху видимой области контейнера */
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end; /* вправо */
+}
+
+.uml-diagram-container .controls{
+    margin: 8px;          /* отступ от угла */
+    display: flex;
+    gap: 8px;
+}
+
+.uml-diagram .uml-link { opacity: .55; transition: opacity .15s, stroke-width .15s; }
+.uml-diagram .uml-link:hover { opacity: 1; stroke-width: 4; }
+.uml-diagram .node-group:hover ~ g .uml-link { opacity: .35; } /* необязательно */
+
+.zoom-controls {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    z-index: 100;
+}
+
+.zoom-controls button {
+    width: 30px;
+    height: 30px;
+    margin: 2px;
+    font-size: 20px;
+    cursor: pointer;
+}

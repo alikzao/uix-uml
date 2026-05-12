@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UIX UML Demo (dist)</title>
+  <link rel="stylesheet" href="./dist/uix-uml.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #202020;
+      color: #f5f7fb;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+    header {
+      padding: 18px 24px;
+      border-bottom: 1px solid #303030;
+      background: #1f1f1f;
+    }
+    main {
+      padding: 0;
+    }
+    #content-workflow {
+      min-height: calc(100vh - 102px);
+    }
+    #uml-demo {
+      min-height: calc(100vh - 102px);
+    }
+    #uml-demo .uml-diagram-container {
+      height: calc(100vh - 102px);
+      margin-bottom: 0;
+    }
+    #uml-demo .uml-diagram-inner {
+      min-width: 100%;
+      min-height: 100%;
+    }
+    code {
+      background: #212736;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>UIX UML Demo</h1>
+    <p>This page uses <code>./dist/uix-uml.css</code> and <code>./dist/uix-uml.iife.js</code>.</p>
+  </header>
+  <main id="content-workflow">
+    <div id="uml-demo"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+  <script>
+    window.config = { isDev: true };
+    window.io = window.io || function () {
+      return { onAny() {}, on() {}, off() {}, emit() {} };
+    };
+    const demoData = {
+      status: 'ok',
+      pipeId: 'demo-pipe',
+      maps: {
+        nodes: [
+          {
+            id: 'webhook',
+            label: 'Webhook Trigger',
+            type: 'trigger',
+            triggerTypes: 'external',
+            sort: 0,
+            fields: [
+              { id: 'payload', label: 'Incoming payload', type: 'object' },
+              { id: 'customer_id', label: 'Customer ID', type: 'string' }
+            ]
+          },
+          {
+            id: 'order',
+            label: 'Create Order',
+            type: 'action_group',
+            sort: 1,
+            fields: [
+              { id: 'order_id', label: 'Order ID', type: 'string' },
+              {
+                id: 'items',
+                label: 'Line items',
+                type: 'array',
+                children: [
+                  { id: 'sku', label: 'SKU', type: 'string' },
+                  { id: 'qty', label: 'Quantity', type: 'number' }
+                ]
+              },
+              { id: 'total', label: 'Total amount', type: 'number' }
+            ]
+          },
+          {
+            id: 'validate',
+            label: 'Validate Stock',
+            type: 'action_group',
+            sort: 2,
+            fields: [
+              { id: 'sku', label: 'SKU', type: 'string' },
+              { id: 'available', label: 'Available', type: 'boolean' },
+              { id: 'reservation_id', label: 'Reservation ID', type: 'string' }
+            ]
+          },
+          {
+            id: 'invoice',
+            label: 'Generate Invoice',
+            type: 'action_group',
+            sort: 3,
+            fields: [
+              { id: 'invoice_id', label: 'Invoice ID', type: 'string' },
+              {
+                id: 'totals',
+                label: 'Totals',
+                type: 'object',
+                children: [
+                  { id: 'subtotal', label: 'Subtotal', type: 'number' },
+                  { id: 'tax', label: 'Tax', type: 'number' },
+                  { id: 'grand_total', label: 'Grand total', type: 'number' }
+                ]
+              },
+              { id: 'pdf_url', label: 'PDF URL', type: 'string' }
+            ]
+          },
+          {
+            id: 'notify',
+            label: 'Send Notification',
+            type: 'trigger',
+            triggerTypes: 'internal',
+            sort: 4,
+            fields: [
+              { id: 'email', label: 'Email', type: 'string' },
+              { id: 'message', label: 'Message', type: 'text' }
+            ]
+          }
+        ],
+        links: [
+          {
+            source: { node: 'webhook', field: 'payload' },
+            target: { node: 'order', field: 'order_id' }
+          },
+          {
+            source: { node: 'order', field: 'items', sub: 'sku' },
+            target: { node: 'validate', field: 'sku' }
+          },
+          {
+            source: { node: 'validate', field: 'reservation_id' },
+            target: { node: 'invoice', field: 'invoice_id' }
+          },
+          {
+            source: { node: 'invoice', field: 'pdf_url' },
+            target: { node: 'notify', field: 'message' }
+          },
+          {
+            source: { node: 'webhook', field: 'customer_id' },
+            target: { node: 'notify', field: 'email' }
+          }
+        ]
+      }
+    };
+
+    window.req = window.req || async function (url) {
+      if (url === '/get/list/maps') return demoData;
+      return { status: 'ok', id: `demo-${Date.now()}` };
+    };
+    window.t = window.t || function (key) { return key; };
+    window.i18n = window.i18n || function (value) {
+      return typeof value === 'object' ? (value.en || value.ru || '') : value;
+    };
+  </script>
+  <script src="./dist/uix-uml.iife.js"></script>
+  <script>
+    window.UIXUML.initializeUMLSocket({ userId: 'demo-user' });
+
+    const diagram = new window.UIXUML.UML('#uml-demo', {
+      data: { id: 'demo-pipe' },
+      popupKeys: {},
+      linkKeys: { api: 'link.api.uml' }
+    });
+    diagram.initState({ data: demoData });
+  </script>
+</body>
+</html>

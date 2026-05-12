@@ -1,0 +1,65 @@
+:root { --bottom-bar-h: 56px; } /* высота твоего нижнего навбара */
+
+.uml-diagram-container {
+    width: 100%;
+    height: 800px;
+    /*overflow: scroll;*/
+    /*overflow-x: scroll;*/
+    /*overflow-y: auto;*/
+    /*overflow-x: hidden;*/
+    /*overflow-x: hidden !important;*/
+
+    position: relative;
+    min-width: 0;   /* ВАЖНО для flex/grid, иначе не дастся горизонтальный скролл */
+    min-height: 0;  /* ВАЖНО для вертикального в тех же кейсах */
+    padding-bottom: calc(var(--bottom-bar-h) + 6px); /* чтобы скролл был над баром */
+    scrollbar-gutter: stable; /* оставляет место под сам скролл */
+    margin-bottom:10px;
+    overflow-x: auto !important;   /* горизонталь работает у контейнера */
+    overflow-y: auto;
+    scrollbar-width: none !important;
+}
+
+.uml-diagram-inner {
+    display: inline-block;      /* чтобы ширина учитывалась для скролла */
+    width: max-content;         /* ширина = по содержимому */
+    height: max-content;
+}
+
+.uml-diagram {
+    display: inline-block;
+    /*width: 1200px;*/
+    /*height: 800px;*/
+    /*overflow: auto;*/
+    /*display: block;*/
+    max-width: none;
+}
+
+/* WebKit/Chromium: сделать дорожку заметной и ненулевой высоты */
+.uml-diagram-container::-webkit-scrollbar {
+    /*height: 12px !important;*/
+    height: 0 !important;        /* прячем H-полосу у контейнера */
+}
+
+.uml-diagram-container::-webkit-scrollbar-thumb {
+    background: rgba(180,180,180,.6);
+    border-radius: 8px;
+}
+
+.uml-diagram-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+#content-constructor, #content-workflow {
+    width: 100%;
+    /*height: 500px;*/
+    /*background: #f7f7f7;*/
+    border: 1px solid #ddd;
+}
+
+#content-constructor, #content-workflow {
+    background-image:
+            linear-gradient(90deg, rgba(152, 151, 151, 0.1) 1px, transparent 1px),
+            linear-gradient(rgba(156, 156, 156, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}

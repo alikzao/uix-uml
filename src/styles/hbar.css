@@ -1,0 +1,45 @@
+/* ЛИПКИЙ нижний горизонтальный скролл (Шаг 1) */
+
+.uml-hbar {
+    position: sticky;      /* прилипает к низу ВНУТРИ контейнера */
+    bottom: 0;
+    height: 16px;          /* высота «видимой» полосы */
+    background: #fafafa;
+    border-top: 1px solid #ddd;
+    z-index: 100;          /* поверх контента контейнера */
+    overflow-y: hidden;
+    /*overflow-x: scroll;*/
+    overflow-x: auto;
+    scrollbar-width: auto;
+}
+
+/* «контент» полосы — просто широкая дорожка; ширину зададим из JS */
+.uml-hbar-inner {
+    height: 1px;
+    min-width: 1px;
+}
+
+.uml-hbar::-webkit-scrollbar { height: 12px !important; }  /* Chrome/Safari */
+
+.uml-hbar{
+    position: sticky;
+    bottom: 0;
+    height: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: #111;
+    border-top: 1px solid #333;
+    z-index: 5;
+}
+
+.uml-hbar-inner{
+    height: 10px;
+}
+
+.uml-hbar--fixed{
+    position: fixed;
+    /*bottom: 0;         !* прижать к низу вьюпорта *!*/
+    left: 0;           /* дальше JS выставит точный left/width под контейнер */
+    width: 100vw;
+   bottom: 8px;
+}

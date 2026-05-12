@@ -1,0 +1,36 @@
+.uml-diagram {
+    font-family: Arial, sans-serif;
+}
+
+.uml-diagram .node {
+    fill: #bf8b93;
+    stroke: white;
+    stroke-width: 2;
+    cursor: grab;
+    opacity: 0.7;
+}
+
+.uml-diagram .field {fill: #1abc9c;stroke: white;stroke-width: 1;}
+
+.uml-diagram .uml-link {
+    fill: none;
+    /*stroke: #b1bfc5;*/
+    stroke-width: 3;
+    border: 1px solid #0e0033;
+    opacity: 0.7;
+}
+
+.uml-diagram .text {fill: white;font-size: 14px;text-anchor: middle;dominant-baseline: middle;}
+
+.uml-diagram .connector {
+    pointer-events: all;
+}
+
+.uml-diagram .node-group {
+    cursor: grab;
+    user-select: none;  /* отключаем выделение текста */
+}
+
+.uml-diagram .node-group:active {
+    cursor: grabbing;
+}

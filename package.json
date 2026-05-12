@@ -1,0 +1,51 @@
+{
+  "name": "@alikzao/uix-uml-diagram",
+  "version": "0.1.0",
+  "description": "UIX-style UML, workflow, and database diagram component for browser-first apps.",
+  "type": "module",
+  "main": "dist/uix-uml.iife.js",
+  "module": "dist/uix-uml.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/uix-uml.esm.js",
+      "default": "./dist/uix-uml.iife.js"
+    },
+    "./plugin": {
+      "import": "./dist/uix-uml.esm.js",
+      "default": "./dist/uix-uml.iife.js"
+    },
+    "./uml.css": "./dist/uix-uml.css"
+  },
+  "scripts": {
+    "build": "webpack --config ./webpack.config.cjs --mode production",
+    "build:dev": "webpack --config ./webpack.config.cjs --mode development",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --config ./jest.config.cjs"
+  },
+  "devDependencies": {
+    "bootstrap-icons": "^1.13.1",
+    "css-loader": "^7.1.2",
+    "jest": "^29.7.0",
+    "mini-css-extract-plugin": "^2.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  },
+  "files": [
+    "dist",
+    "src",
+    "jest.config.cjs",
+    "__tests__",
+    "README.md",
+    "LICENSE",
+    "webpack.config.cjs",
+    "demo.html"
+  ],
+  "keywords": [
+    "uix",
+    "uml",
+    "diagram",
+    "workflow",
+    "database",
+    "component"
+  ],
+  "license": "Apache-2.0"
+}
